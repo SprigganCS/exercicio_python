@@ -13,9 +13,6 @@ def deposito(cliente, notas, cn):
         saldos[cliente_index] += valor #aqui é garantido que sempre vai ter um index válido
 
 def transferencia(cliente, valor, cliente_credito):
-    print("transferencia")
-    #deverá transferir o valor do cliente para o cliente_credito
-    # os saldos dos clientes serão atualizados, mas a quantidade de notas no caixa não
     saldo_cliente = saldos[findCliente(cliente)]
     if saldo_cliente < valor:
         print("Saldo insuficiente para realizar a transferência.")
@@ -42,7 +39,6 @@ def saque(cliente, valor, cn):
     qtd_min_notas = [0, 0, 0, 0, 0, 0, 0] 
     notas_cn = matriz_notas[cn]
     
-    #boa sorte implementando isso aqui
 
     valores_notas = [100, 50, 20, 10, 5, 2, 1]
     qtd_min_notas = [0, 0, 0, 0, 0, 0, 0]
@@ -62,11 +58,8 @@ def saque(cliente, valor, cn):
         print("Não há notas suficientes para o valor solicitado.")
 
 
-    #atualizar saldo do cliente e qtd de notas do caixa
-    #Caso não haja notas suficientes, o saque não será realizado.
 
 def findCliente(cliente):
-    print("findCliente")
     #retorna o indice do cliente na lista clientes
     index_cliente = -1
     for i in range(len(clientes)):
