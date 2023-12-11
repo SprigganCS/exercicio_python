@@ -21,14 +21,12 @@ def transferencia(cliente, valor, cliente_credito):
     saldos[findCliente(cliente)] -= valor
     saldos[findCliente(cliente_credito)] += valor
 
-def saque(cliente, valor, cn):   
+def saque(cliente, valor, cn):
     index_cliente = findCliente(cliente)
-
-    if index_cliente == -1:
-        print("Cliente não encontrado!") #pode ser que os testes já garantam isso, mas só pra garantir eu coloquei
-        return
     
     saldo_cliente = saldos[index_cliente]
+
+    saldo_cliente_backup = saldo_cliente
 
     if saldo_cliente < valor:
         print("Saldo insuficiente para realizar o saque.") #tbm pode ser que já seja garantido
@@ -38,6 +36,8 @@ def saque(cliente, valor, cn):
     valores_notas = [100, 50, 20, 10, 5, 2, 1]
     qtd_min_notas = [0, 0, 0, 0, 0, 0, 0] 
     notas_cn = matriz_notas[cn]
+    notas_maquina_backup = notas_cn.copy()
+
     
 
     valores_notas = [100, 50, 20, 10, 5, 2, 1]
@@ -55,9 +55,10 @@ def saque(cliente, valor, cn):
         print("A quantidade mínima de notas é:", qtd_min_notas)
         saldos[index_cliente] -= contaValorNotas(qtd_min_notas)
     else:
+        matriz_notas[cn] = notas_maquina_backup
+        saldos[index_cliente] = saldo_cliente_backup
+
         print("Não há notas suficientes para o valor solicitado.")
-
-
 
 def findCliente(cliente):
     #retorna o indice do cliente na lista clientes
@@ -132,12 +133,14 @@ while True:
         notas = [int(nota) for nota in notas] #aqui to transformando a lista de strings em uma lista de inteiros
 
         deposito(nome_cliente, notas, cn-1) #tirei 1 pq parece que as saídas não consideram o caixa 0
+        relatorios() #apagar
 
     elif operacao == 2:
         cn = int(input("Digite o número do caixa: "))
         nome_cliente = input("Digite o nome do cliente: ")
         valor = int(input("Digite o valor do saque: "))
         saque(nome_cliente, valor, cn-1)
+        relatorios() #apagar
 
     elif operacao == 3:
         cn = int(input("Digite o número do caixa: ")) #sla pq mas o enunciado pede o número do caixa
@@ -145,6 +148,7 @@ while True:
         valor = int(input("Digite o valor da transferência: "))
         nome_cliente_credito = input("Digite o nome do cliente que receberá a transferência: ")
         transferencia(nome_cliente, valor, nome_cliente_credito)
+        relatorios() #apagar
 
     else:
         print("Operação inválida!")
